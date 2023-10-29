@@ -22,15 +22,15 @@ jobs:
             java-version: '17'
             distribution: 'zulu' # https://github.com/actions/setup-java
 
-        - name: Gradle Caching
-          uses: actions/cache@v3
-          with:
-            path: |
-              ~/.gradle/caches
-              ~/.gradle/wrapper
-            key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-            restore-keys: |
-              ${{ runner.os }}-gradle-
+        #- name: Gradle Caching
+        #  uses: actions/cache@v3
+        #  with:
+        #    path: |
+        #      ~/.gradle/caches
+        #      ~/.gradle/wrapper
+        #    key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        #    restore-keys: |
+        #      ${{ runner.os }}-gradle-
               
         - name: create application.properties for CD
           run: |
