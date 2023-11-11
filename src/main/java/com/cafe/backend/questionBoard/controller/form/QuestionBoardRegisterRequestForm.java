@@ -14,7 +14,7 @@ public class QuestionBoardRegisterRequestForm {
     final private String title;
 
     @NotBlank
-    final private String description;
+    final private String content;
 
     @NotBlank
     final private String userId;
@@ -25,6 +25,6 @@ public class QuestionBoardRegisterRequestForm {
     final private List<String> tags;
 
     public QuestionBoardRegisterRequest toQuestionBordRegisterRequest() {
-        return new QuestionBoardRegisterRequest(title, description, userId, category, tags);
+        return new QuestionBoardRegisterRequest(title, content, userId, category, tags);
     }
 }

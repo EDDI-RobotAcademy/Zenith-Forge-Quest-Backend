@@ -58,7 +58,7 @@ public class QuestionBoardTest {
         final QuestionBoard actual = service.createQuestion(request);
 
         assertEquals(actual.getTitle(), expectedBoard.getTitle());
-        assertEquals(actual.getDescription(), expectedBoard.getDescription());
+        assertEquals(actual.getContent(), expectedBoard.getContent());
         assertEquals(actual.getCategory(), expectedBoard.getCategory());
         assertEquals(actual.getUserId(), expectedBoard.getUserId());
         assertEquals(actual.getTags(), expectedBoard.getTags());

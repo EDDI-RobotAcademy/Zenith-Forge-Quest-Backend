@@ -10,12 +10,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionBoardRegisterRequest {
     final private String title;
-    final private String description;
+    final private String content;
     final private String userId;
     final private String category;
     final private List<String> tags;
 
     public QuestionBoard toQuestionBordRequest() {
-        return new QuestionBoard(title, description, userId, category, tags);
+        return new QuestionBoard(title, content, userId, category, tags);
     }
 }

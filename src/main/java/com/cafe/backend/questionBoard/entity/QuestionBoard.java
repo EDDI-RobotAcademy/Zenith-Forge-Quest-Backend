@@ -23,23 +23,23 @@ public class QuestionBoard {
     private String title;
 
     @Column(nullable = false, length = 255)
-    private String description;
+    private String content;
 
-    //보류 회원 id member table 연결 예정
+    //TODO 보류 회원 id member table 연결 예정
     @Column(nullable = false, length = 50)
     private String userId;
 
-    //보류 카테고리 table 연결 예정
+    //TODO 보류 카테고리 table 연결 예정 ->추후 category -> menu로 변경 예정
     @Column(nullable = false, length = 100)
     private String category;
 
-    //보류 태그 table 연결 예정
+    //TODO 보류 태그 table 연결 예정
     @Column(nullable = false, length = 100)
     private List<String> tags;
 
-    public QuestionBoard(String title, String description, String userId, String category, List<String> tags) {
+    public QuestionBoard(String title, String content, String userId, String category, List<String> tags) {
         this.title = title;
-        this.description = description;
+        this.content = content;
         this.userId = userId;
         this.category = category;
         this.tags = tags;
