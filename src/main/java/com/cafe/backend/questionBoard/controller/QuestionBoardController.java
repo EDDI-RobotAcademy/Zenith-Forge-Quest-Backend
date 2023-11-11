@@ -1,6 +1,6 @@
 package com.cafe.backend.questionBoard.controller;
 
-import com.cafe.backend.questionBoard.dto.QuestionBoardRequest;
+import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +22,9 @@ public class QuestionBoardController {
         return "Question Board Test";
     }
 
-    @PostMapping()
-    public ResponseEntity<Object> createCategory (@Valid @RequestBody QuestionBoardRequest createRequest) {
-        service.createQuestion(createRequest);
+    @PostMapping(value = "/register")
+    public ResponseEntity<Object> registerQuestionBoard (@Valid @RequestBody QuestionBoardRegisterRequestForm createRequest) {
+        service.createQuestion(createRequest.toQuestionBordRegisterRequest());
 
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
