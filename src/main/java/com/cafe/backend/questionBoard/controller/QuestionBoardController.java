@@ -1,6 +1,7 @@
 package com.cafe.backend.questionBoard.controller;
 
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
+import com.cafe.backend.questionBoard.entity.QuestionBoard;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -28,4 +32,11 @@ public class QuestionBoardController {
 
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/list/nonUser")
+    public ResponseEntity<Object> getQuestionByNonUser () {
+        List<QuestionBoard> questionBoard = service.getQuestionByNonUser();
+        return new ResponseEntity<>(questionBoard,null, HttpStatus.CREATED);
+    }
+
 }

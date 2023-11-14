@@ -63,4 +63,16 @@ public class QuestionBoardTest {
         assertEquals(actual.getUserId(), expectedBoard.getUserId());
         assertEquals(actual.getTags(), expectedBoard.getTags());
     }
+
+    @Test
+    @DisplayName("get question board none user list")
+    public void get_questionboard_nonUserList_test() throws Exception {
+        doReturn(Collections.emptyList())
+                .when(questionBoardRepository).findAllByOrderById();
+
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository);
+        final List<QuestionBoard> actual = service.getQuestionByNonUser();
+
+        assertTrue(actual.isEmpty());
+    }
 }

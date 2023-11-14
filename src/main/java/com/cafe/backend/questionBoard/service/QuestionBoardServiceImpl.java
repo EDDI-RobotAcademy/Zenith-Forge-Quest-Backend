@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -17,5 +20,11 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
         //TODO user id - memeber 작업 후 재작업 예정
         //TODO category / tag 작업 후 추가 보수 예정
         return  questionBoardRepository.save(createRequest.toQuestionBordRequest());
+    }
+
+    @Override
+    public List<QuestionBoard> getQuestionByNonUser() {
+        //TODO 비로그인 LIST 권한 추후 작업 예정
+        return questionBoardRepository.findAllByOrderById();
     }
 }
