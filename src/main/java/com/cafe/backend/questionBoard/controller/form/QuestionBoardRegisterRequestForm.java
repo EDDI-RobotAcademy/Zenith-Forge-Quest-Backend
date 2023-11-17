@@ -1,5 +1,6 @@
 package com.cafe.backend.questionBoard.controller.form;
 
+import com.cafe.backend.questionBoard.entity.QuestionBoardContent;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class QuestionBoardRegisterRequestForm {
     final private List<String> tags;
 
     public QuestionBoardRegisterRequest toQuestionBordRegisterRequest() {
+        QuestionBoardContent questionBoardContent = new QuestionBoardContent(content);
+        questionBoardContent.validateContent();
+
         return new QuestionBoardRegisterRequest(title, content, userId, category, tags);
     }
 }
