@@ -15,10 +15,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.Collections;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -77,5 +80,20 @@ public class QuestionBoardTest {
         final List<QuestionBoard> actual = service.getQuestionByNonUser();
 
         assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    @DisplayName("get quest board by user id")
+    public void get_question_board_by_useID() throws Exception {
+        String name = "inji";
+        String title = "타이틀변경경1";
+        String content = "설명1";
+        String category = "Spring";
+        String tags = "init";
+
+        mockMvc.perform(get("/question-board/list/user")
+                        .param("userId", name))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value(title));
     }
 }

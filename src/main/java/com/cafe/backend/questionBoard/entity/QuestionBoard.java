@@ -35,9 +35,9 @@ public class QuestionBoard {
 
     //TODO 보류 태그 table 연결 예정
     @Column(nullable = false, length = 100)
-    private List<String> tags;
+    private String tags;
 
-    public QuestionBoard(String title, String content, String userId, String category, List<String> tags) {
+    public QuestionBoard(String title, String content, String userId, String category, String tags) {
         this.title = title;
         this.content = content;
         this.userId = userId;

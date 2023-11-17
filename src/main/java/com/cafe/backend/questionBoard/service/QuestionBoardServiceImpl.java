@@ -27,4 +27,9 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
         //TODO 비로그인 LIST 권한 추후 작업 예정
         return questionBoardRepository.findAllByOrderById();
     }
+
+    @Override
+    public List<QuestionBoard> getQuestionByUser(String userId) {
+        return questionBoardRepository.findByUserId(userId);
+    }
 }

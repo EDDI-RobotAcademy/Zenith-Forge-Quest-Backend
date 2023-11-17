@@ -34,9 +34,15 @@ public class QuestionBoardController {
     }
 
     @GetMapping(value = "/list/nonUser")
-    public ResponseEntity<Object> getQuestionByNonUser () {
+    public ResponseEntity<Object> getQuestionNonUser () {
         List<QuestionBoard> questionBoard = service.getQuestionByNonUser();
-        return new ResponseEntity<>(questionBoard,null, HttpStatus.CREATED);
+        return new ResponseEntity<>(questionBoard, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/list/user")
+    public ResponseEntity<Object> getQuestionByUser (@RequestParam String userId) {
+        List<QuestionBoard> questionBoard = service.getQuestionByUser(userId);
+        return new ResponseEntity<Object>(questionBoard, null, HttpStatus.OK);
     }
 
 }
