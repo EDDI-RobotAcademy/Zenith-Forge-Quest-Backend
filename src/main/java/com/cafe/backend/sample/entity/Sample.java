@@ -1,5 +1,6 @@
 package com.cafe.backend.sample.entity;
 
+import com.cafe.backend.common.base.entity.BaseEntity;
 import com.cafe.backend.sample.service.dto.SampleModifyRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "sample")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Sample {
+public class Sample extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
