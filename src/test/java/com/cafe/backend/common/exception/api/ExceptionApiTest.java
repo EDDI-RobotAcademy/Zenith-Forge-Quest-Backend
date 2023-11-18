@@ -68,10 +68,14 @@ public class ExceptionApiTest {
     @DisplayName("NotAcceptable 테스트")
     void notAcceptableException() throws Exception {
         // given
-        Long id = 10000L;
+        SampleCreateRequest sampleCreateRequest = SampleCreateRequest.builder()
+                .title("t")
+                .content("c")
+                .build();
+        Long sampleId = sampleService.add(sampleCreateRequest);
         // when
         // then
-        mockMvc.perform(delete("/api/samples/{id}", id))
+        mockMvc.perform(delete("/api/samples/{id}", sampleId))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable());
     }
