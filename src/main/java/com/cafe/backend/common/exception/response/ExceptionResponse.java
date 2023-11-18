@@ -31,13 +31,13 @@ public class ExceptionResponse {
         List<Error> errors = new ArrayList<>();
 
         objectErrors.forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
+            String fieldName    = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
 
             errors.add(
                     Error.builder()
-                    .field(fieldName)
-                    .message(errorMessage)
+                    .fieldName(fieldName)
+                    .message  (errorMessage)
                     .build()
             );
         });

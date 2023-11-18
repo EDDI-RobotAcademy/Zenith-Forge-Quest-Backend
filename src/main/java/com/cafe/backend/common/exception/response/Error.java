@@ -6,13 +6,13 @@ import lombok.Getter;
 @Getter
 public class Error {
 
-    private String field;
+    private final String fieldName;
 
-    private String message;
+    private final String message;
 
     @Builder
-    public Error(String field, String message) {
-        this.field = field;
-        this.message = message;
+    public Error(String fieldName, String message) {
+        this.fieldName = fieldName;
+        this.message   = message;
     }
 }
