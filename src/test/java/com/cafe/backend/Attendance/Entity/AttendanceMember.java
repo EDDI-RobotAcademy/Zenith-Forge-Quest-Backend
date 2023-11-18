@@ -12,10 +12,10 @@ public class AttendanceMember {
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String name;
+    private String zoomName;
 
     @Column(nullable = false, length = 50)
-    private String email;
+    private String zoomEmail;
 
     //참가 시간
     @Column(nullable = false, length = 50)
@@ -30,10 +30,10 @@ public class AttendanceMember {
     private String totalTime;
 
     @Builder
-    public AttendanceMember(Long id, String name, String email, String entryTime, String exitTime, String totalTime) {
+    public AttendanceMember(Long id, String zoomName, String zoomEmail, String entryTime, String exitTime, String totalTime) {
         this.id = id;
-        this.name = name;
-        this.email = email;
+        this.zoomName = zoomName;
+        this.zoomEmail = zoomEmail;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
         this.totalTime = totalTime;
