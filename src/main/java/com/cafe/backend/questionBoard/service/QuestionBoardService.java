@@ -13,6 +13,8 @@ public interface QuestionBoardService {
     List<QuestionBoard> getQuestionByNonUser();
 
     List<QuestionBoard> getQuestionByUser(String userId);
+
+    List<QuestionBoard> getQuestionSearchData(QuestionBoardSearchRequest searchRequest);
 }
 
 /*

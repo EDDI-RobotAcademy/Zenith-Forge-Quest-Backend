@@ -1,8 +1,10 @@
 package com.cafe.backend.questionBoard.controller;
+import com.cafe.backend.questionBoard.controller.form.QuestionBoardSearchRequestForm;
 
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,17 +22,13 @@ import java.util.Map;
 public class QuestionBoardController {
 
     private final QuestionBoardService service;
-
-    @GetMapping("/test")
-    public String justTest () {
-        return "Question Board Test";
-    }
+    private final ObjectMapper objectMapper;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Object> registerQuestionBoard (@Valid @RequestBody QuestionBoardRegisterRequestForm createRequest) {
-        service.createQuestion(createRequest.toQuestionBordRegisterRequest());
+    public ResponseEntity<Object> registerQuestionBoard (@RequestBody QuestionBoardRegisterRequestForm createRequest) {
+        QuestionBoard questionBoard = service.createQuestion(createRequest.toQuestionBoardRegisterRequest());
 
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(questionBoard, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/list/nonUser")
@@ -45,4 +43,12 @@ public class QuestionBoardController {
         return new ResponseEntity<Object>(questionBoard, null, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/list/search")
+    public ResponseEntity<Object> getQuestionSearchData (@RequestParam Map<String,Object> params) {
+
+        QuestionBoardSearchRequestForm searchForm = objectMapper.convertValue(params, QuestionBoardSearchRequestForm.class);
+        List<QuestionBoard> questionBoard = service.getQuestionSearchData(searchForm.toQuestionBoardSearchRequest());
+
+        return new ResponseEntity<Object>(questionBoard,null, HttpStatus.OK);
+    }
 }

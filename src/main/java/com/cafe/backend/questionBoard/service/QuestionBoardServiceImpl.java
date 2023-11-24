@@ -3,7 +3,9 @@ package com.cafe.backend.questionBoard.service;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
 import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
+import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,5 +33,11 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
     @Override
     public List<QuestionBoard> getQuestionByUser(String userId) {
         return questionBoardRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<QuestionBoard> getQuestionSearchData(QuestionBoardSearchRequest searchForm) {
+        Specification<QuestionBoard> questionBoardSpecification = QuestionBoardSpecifications.searchQuestionBoard(searchForm);
+        return questionBoardRepository.findAll(questionBoardSpecification);
     }
 }

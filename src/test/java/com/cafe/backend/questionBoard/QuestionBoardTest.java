@@ -6,6 +6,8 @@ import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import com.cafe.backend.questionBoard.service.QuestionBoardServiceImpl;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -51,12 +54,15 @@ public class QuestionBoardTest {
     @Test
     @DisplayName("quest board register test")
     public void register_questboard_test() throws Exception {
-        final QuestionBoardRegisterRequestForm registerRequestForm = new QuestionBoardRegisterRequestForm(
-                "제목", "헤이~ 나는 나쁜말하는 나쁜사람~!!", "inji", "Spring", List.of("tag1", "tag2"));
+        ObjectMapper objectMapper = new ObjectMapper(); // Jackson ObjectMapper
 
-        final QuestionBoardRegisterRequest request = registerRequestForm.toQuestionBordRegisterRequest();
+        final String json = "{\"title\":\"제목\",\"content\":\"헤이~ 나는 착한말하는 착한사람~!!\",\"userId\":\"inji\",\"category\":\"Spring\",\"tags\":\"tag1\"}";
 
-        QuestionBoard expectedBoard = new QuestionBoard("제목", "내용", "inji", "Spring", List.of("tag1", "tag2"));
+        final QuestionBoardRegisterRequestForm registerRequestForm = objectMapper.readValue(json, QuestionBoardRegisterRequestForm.class);
+
+        final QuestionBoardRegisterRequest request = registerRequestForm.toQuestionBoardRegisterRequest();
+
+        QuestionBoard expectedBoard = new QuestionBoard("제목", "내용", "inji", "Spring", "tag1");
 
         doReturn(expectedBoard).when(questionBoardRepository).save(any(QuestionBoard.class));
 
@@ -95,5 +101,24 @@ public class QuestionBoardTest {
                         .param("userId", name))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value(title));
+    }
+
+    @Test
+    @DisplayName("get quest board by search data")
+    public void get_question_board_by_search_data() throws Exception {
+        String userId = "inji";
+        String searchType = "ALL";
+        String searchWord = "타이틀";
+
+        mockMvc.perform(get("/question-board/list/search")
+                        .param("userId", userId)
+                        .param("searchType", searchType)
+                        .param("searchWord", searchWord)
+                )
+
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].userId").value(userId))
+                .andExpect(jsonPath("$[0].title").value(Matchers.containsString(searchWord)))
+        ;
     }
 }
