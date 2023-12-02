@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name="question_board")
 @Getter
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class QuestionBoard {
 
     @Id
@@ -21,18 +23,25 @@ public class QuestionBoard {
     private String title;
 
     @Column(nullable = false, length = 255)
-    private String description;
+    private String content;
 
-    //보류 회원 id member table 연결 예정
+    //TODO 보류 회원 id member table 연결 예정
     @Column(nullable = false, length = 50)
     private String userId;
 
-    @Builder
-    public QuestionBoard(Long id, String title, String description, String userId) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.userId = userId;
-    }
+    //TODO 보류 카테고리 table 연결 예정 ->추후 category -> menu로 변경 예정
+    @Column(nullable = false, length = 100)
+    private String category;
 
+    //TODO 보류 태그 table 연결 예정
+    @Column(nullable = false, length = 100)
+    private String tags;
+
+    public QuestionBoard(String title, String content, String userId, String category, String tags) {
+        this.title = title;
+        this.content = content;
+        this.userId = userId;
+        this.category = category;
+        this.tags = tags;
+    }
 }
