@@ -40,4 +40,17 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfileRepository.save(userProfile);
         return true;
     }
+
+    @Override
+    public Boolean checkDuplicateEmail(String email) {
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByEmail(email);
+
+        if (maybeUserProfile.isEmpty()) {
+            log.info("can use this email!");
+            return true;
+        } else {
+            log.info("already exist email!");
+            return false;
+        }
+    }
 }

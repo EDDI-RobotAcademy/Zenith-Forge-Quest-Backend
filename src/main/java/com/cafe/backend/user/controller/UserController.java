@@ -21,4 +21,10 @@ public class UserController {
         return userProfileService.modifyUserProfile(form);
     }
 
+    // 이메일 중복 검사
+    @GetMapping(value = "/check-email")
+    public Boolean checkDuplicateEmail(@RequestParam("email") String email) {
+        log.info("checkDuplicateEmail(): " + email);
+        return userProfileService.checkDuplicateEmail(email);
+    }
 }
