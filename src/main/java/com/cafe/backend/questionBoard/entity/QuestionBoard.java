@@ -33,15 +33,17 @@ public class QuestionBoard {
     @Column(nullable = false, length = 100)
     private String category;
 
-    //TODO 보류 태그 table 연결 예정
-    @Column(nullable = false, length = 100)
-    private String tags;
+    @Transient
+    private List<Tag> tags;
 
-    public QuestionBoard(String title, String content, String userId, String category, String tags) {
+    public QuestionBoard(String title, String content, String userId, String category) {
         this.title = title;
         this.content = content;
         this.userId = userId;
         this.category = category;
-        this.tags = tags;
+    }
+
+    public void setTagsFromQuestionBoardId(List<Tag> questionTags){
+        this.tags= questionTags;
     }
 }

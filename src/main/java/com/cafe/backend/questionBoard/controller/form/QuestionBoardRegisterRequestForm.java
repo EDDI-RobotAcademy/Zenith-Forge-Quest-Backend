@@ -8,13 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Getter
 public class QuestionBoardRegisterRequestForm {
     private final String title;
     private final String content;
     private final String userId;
     private final String category;
-    private final String tags;
+    private final List<String> tags;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public QuestionBoardRegisterRequestForm(
@@ -22,7 +24,7 @@ public class QuestionBoardRegisterRequestForm {
             @JsonProperty("content") String content,
             @JsonProperty("userId") String userId,
             @JsonProperty("category") String category,
-            @JsonProperty("tags") String tags) {
+            @JsonProperty("tags") List<String> tags) {
         this.title = title;
         this.content = content;
         this.userId = userId;

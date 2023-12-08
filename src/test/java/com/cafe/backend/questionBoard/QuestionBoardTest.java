@@ -2,7 +2,10 @@ package com.cafe.backend.questionBoard;
 
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
+import com.cafe.backend.questionBoard.entity.Tag;
 import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
+import com.cafe.backend.questionBoard.repository.QuestionBoardTagRepository;
+import com.cafe.backend.questionBoard.repository.TagRepository;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import com.cafe.backend.questionBoard.service.QuestionBoardServiceImpl;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
@@ -16,9 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -39,6 +46,12 @@ public class QuestionBoardTest {
 
     @Mock
     private QuestionBoardRepository questionBoardRepository;
+
+    @Mock
+    private TagRepository tagRepository;
+
+    @Mock
+    private QuestionBoardTagRepository questionBoardTagRepository;
 
     @InjectMocks
     private QuestionBoardServiceImpl questionBoardService;
@@ -62,18 +75,17 @@ public class QuestionBoardTest {
 
         final QuestionBoardRegisterRequest request = registerRequestForm.toQuestionBoardRegisterRequest();
 
-        QuestionBoard expectedBoard = new QuestionBoard("제목", "내용", "inji", "Spring", "tag1");
+        QuestionBoard expectedBoard = new QuestionBoard("제목", "내용", "inji", "Spring");
 
         doReturn(expectedBoard).when(questionBoardRepository).save(any(QuestionBoard.class));
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository);
         final QuestionBoard actual = service.createQuestion(request);
 
         assertEquals(actual.getTitle(), expectedBoard.getTitle());
         assertEquals(actual.getContent(), expectedBoard.getContent());
         assertEquals(actual.getCategory(), expectedBoard.getCategory());
         assertEquals(actual.getUserId(), expectedBoard.getUserId());
-        assertEquals(actual.getTags(), expectedBoard.getTags());
     }
 
     @Test
@@ -82,7 +94,7 @@ public class QuestionBoardTest {
         doReturn(Collections.emptyList())
                 .when(questionBoardRepository).findAllByOrderById();
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository,tagRepository, questionBoardTagRepository);
         final List<QuestionBoard> actual = service.getQuestionByNonUser();
 
         assertTrue(actual.isEmpty());
@@ -120,5 +132,28 @@ public class QuestionBoardTest {
                 .andExpect(jsonPath("$[0].userId").value(userId))
                 .andExpect(jsonPath("$[0].title").value(Matchers.containsString(searchWord)))
         ;
+    }
+
+    @Test
+    @DisplayName("create quest board include tag")
+    public void create_question_board_include_tag() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        List<String> tags = new ArrayList<>();
+        tags.add("vue");
+        tags.add("spring");
+        QuestionBoardRegisterRequestForm registerRequestForm = new QuestionBoardRegisterRequestForm(
+                "제목", "설", "inji", "backend", tags );
+
+        mockMvc.perform(post("/question-board/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registerRequestForm))
+                )
+                .andExpect(jsonPath("$.title").value(registerRequestForm.getTitle()))
+                .andExpect(jsonPath("$.content").value(registerRequestForm.getContent()))
+                .andExpect(jsonPath("$.userId").value(registerRequestForm.getUserId()))
+                .andExpect(jsonPath("$.category").value(registerRequestForm.getCategory()))
+                .andExpect(jsonPath("$.tags[0].content").value(tags.get(0)))
+                .andExpect(jsonPath("$.tags[1].content").value(tags.get(1)));
     }
 }

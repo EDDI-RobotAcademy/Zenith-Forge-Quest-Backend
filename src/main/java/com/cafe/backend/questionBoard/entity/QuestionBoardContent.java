@@ -9,7 +9,7 @@ public class QuestionBoardContent {
 
     public QuestionBoardContent(String content)  {
         this.content = content;
-        validateContent();
+
     }
 
     public void validateContent() {
