@@ -1,0 +1,12 @@
+package com.cafe.backend.user.repository;
+
+import com.cafe.backend.user.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    @Query("SELECT u FROM User u WHERE u.accessToken = :accessToken")
+    User findByUserToken(String accessToken);
+}
