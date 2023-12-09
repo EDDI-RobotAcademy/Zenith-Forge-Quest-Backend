@@ -4,6 +4,7 @@ import com.cafe.backend.menu.controller.form.MenuAddForm;
 import com.cafe.backend.menu.controller.form.MenuModifyForm;
 import com.cafe.backend.menu.controller.form.MenuPageForm;
 import com.cafe.backend.menu.service.MenuService;
+import com.cafe.backend.menu.service.dto.MenuReadResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +31,8 @@ public class MenuController {
     }
 
     @GetMapping("/menus/{id}")
-    public void get(@PathVariable Long id) {
-        menuService.get(id);
+    public MenuReadResponse get(@PathVariable Long id) {
+        return menuService.get(id);
     }
 
     @GetMapping("/menus/pages")

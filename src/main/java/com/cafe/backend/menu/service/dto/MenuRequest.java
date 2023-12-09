@@ -24,16 +24,4 @@ public record MenuRequest(
                         .   collect(Collectors.toList()))
                 .build();
     }
-
-    public Menu toEntity(Menu parentMenu) {
-        return Menu.builder()
-                .name    (name)
-                .url     (url)
-                .sort    (sort)
-                .parent  (parentMenu)
-                .children(children.stream()
-                        .map(MenuRequest::toEntity)
-                        .   collect(Collectors.toList()))
-                .build();
-    }
 }

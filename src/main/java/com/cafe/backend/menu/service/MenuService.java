@@ -6,6 +6,7 @@ import com.cafe.backend.menu.repository.MenuRepository;
 import com.cafe.backend.menu.service.dto.MenuAddRequest;
 import com.cafe.backend.menu.service.dto.MenuModifyRequest;
 import com.cafe.backend.menu.service.dto.MenuPageRequest;
+import com.cafe.backend.menu.service.dto.MenuReadResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.data.domain.Pageable;
@@ -46,8 +47,8 @@ public class MenuService {
         }
     }
 
-    public void get(Long id) {
-        getMenu(id);
+    public MenuReadResponse get(Long id) {
+        return MenuReadResponse.of(getMenu(id));
     }
 
     public void modify(Long id, MenuModifyRequest menuModifyRequest) {
