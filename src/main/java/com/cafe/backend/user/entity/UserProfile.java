@@ -1,15 +1,15 @@
 package com.cafe.backend.user.entity;
 
-import com.cafe.backend.user.service.request.UserProfileRegistRequest;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @Entity
-@ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserProfile {
 
     @Id
@@ -33,11 +33,14 @@ public class UserProfile {
         this.phoneNumber = phoneNumber;
     }
 
-    public UserProfile(String email, String nickname, String phoneNumber, UserProfileImage userProfileImage) {
+    public UserProfile(UserProfileImage userProfileImage) {
+        this.userProfileImage = userProfileImage;
+        userProfileImage.setUserProfile(this);
+    }
+
+    public void ModifyUserProfile(String email, String nickname, String phoneNumber) {
         this.email = email;
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
-        this.userProfileImage = userProfileImage;
-        userProfileImage.setUserProfile(this);
     }
 }
