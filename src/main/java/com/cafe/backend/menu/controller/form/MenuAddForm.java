@@ -14,7 +14,7 @@ public record MenuAddForm(
         @NotBlank String name,
                   String url,
         @NotNull  Long sort,
-        @Valid    List<MenuForm> children
+        @Valid    List<MenuAddForm> children
 ) {
 
     public MenuAddRequest toDto() {
@@ -23,7 +23,7 @@ public record MenuAddForm(
                 .url     (url)
                 .sort    (sort)
                 .children(children.stream()
-                            .map(MenuForm::toDto)
+                            .map(MenuAddForm::toDto)
                             .collect(Collectors.toList()))
                 .build();
     }

@@ -16,11 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-/**
- * @since       2023.11.18
- * @author      jerry
- * @description menu service
- **********************************************************************************************************************/
 @Service
 @Transactional
 @RequiredArgsConstructor

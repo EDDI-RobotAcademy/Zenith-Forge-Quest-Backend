@@ -10,11 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * @since       2023.11.18
- * @author      jerry
- * @description menu
- **********************************************************************************************************************/
 @Getter
 @Entity
 @Table(name = "menu")

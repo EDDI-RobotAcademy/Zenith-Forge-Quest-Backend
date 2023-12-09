@@ -5,11 +5,6 @@ import com.cafe.backend.menu.service.dto.MenuPageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-/**
- * @since       2023.11.19
- * @author      jerry
- * @description custom menu repository impl
- **********************************************************************************************************************/
 public class CustomMenuRepositoryImpl implements CustomMenuRepository{
 
 

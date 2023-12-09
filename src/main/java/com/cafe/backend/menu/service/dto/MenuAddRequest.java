@@ -11,7 +11,7 @@ public record MenuAddRequest(
         String name,
         String url,
         Long sort,
-        List<MenuRequest> children
+        List<MenuAddRequest> children
 ) {
 
     public Menu toEntity() {
@@ -20,7 +20,7 @@ public record MenuAddRequest(
                 .url     (url)
                 .sort    (sort)
                 .children(children.stream()
-                            .map(MenuRequest::toEntity)
+                            .map(MenuAddRequest::toEntity)
                             .collect(Collectors.toList()))
                 .build();
     }

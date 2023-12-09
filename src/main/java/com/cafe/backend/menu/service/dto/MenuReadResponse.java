@@ -12,7 +12,7 @@ public record MenuReadResponse(
         String name,
         String url,
         Long   sort,
-        List<MenuResponse> children
+        List<MenuReadResponse> children
 ) {
 
     public static MenuReadResponse of(Menu menu) {
@@ -22,7 +22,7 @@ public record MenuReadResponse(
                 .url(menu.getUrl())
                 .sort(menu.getSort())
                 .children(menu.getChildren().stream()
-                        .map(MenuResponse::of)
+                        .map(MenuReadResponse::of)
                         .collect(Collectors.toList()))
                 .build();
     }

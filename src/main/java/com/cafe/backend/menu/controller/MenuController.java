@@ -12,12 +12,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 
-
-/**
- * @since       2023.11.18
- * @author      jerry
- * @description menu controller
- **********************************************************************************************************************/
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
