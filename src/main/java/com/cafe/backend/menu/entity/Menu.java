@@ -1,7 +1,6 @@
 package com.cafe.backend.menu.entity;
 
 import com.cafe.backend.common.base.entity.BaseEntity;
-import com.cafe.backend.menu.service.dto.MenuModifyRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -47,13 +46,10 @@ public class Menu extends BaseEntity {
         this.children = children;
     }
 
-    public void update(MenuModifyRequest menuModifyRequest) {
-
-    }
-
-    public void addChild(Menu menu) {
-        this.children.add(menu);
-        menu.parent = this;
+    public void update(Menu menu) {
+        this.name = menu.getName();
+        this.url = menu.getUrl();
+        this.sort = menu.getSort();
     }
 
     public void setParent(Menu parentMenu) {

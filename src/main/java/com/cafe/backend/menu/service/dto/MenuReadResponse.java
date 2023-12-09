@@ -12,18 +12,26 @@ public record MenuReadResponse(
         String name,
         String url,
         Long   sort,
+        MenuReadResponse parent,
         List<MenuReadResponse> children
 ) {
 
     public static MenuReadResponse of(Menu menu) {
         return MenuReadResponse.builder()
-                .id(menu.getId())
-                .name(menu.getName())
-                .url(menu.getUrl())
-                .sort(menu.getSort())
-                .children(menu.getChildren().stream()
-                        .map(MenuReadResponse::of)
-                        .collect(Collectors.toList()))
+                .id      (menu.getId())
+                .name    (menu.getName())
+                .url     (menu.getUrl())
+                .sort    (menu.getSort())
+                .parent  (menu.getParent() == null ? null : MenuReadResponse.setParent(menu.getParent()))
+                .children(menu.getChildren().isEmpty() ? null : menu.getChildren().stream()
+                            .map(MenuReadResponse::of)
+                            .collect(Collectors.toList()))
+                .build();
+    }
+
+    private static MenuReadResponse setParent(Menu parent) {
+        return MenuReadResponse.builder()
+                .id(parent.getId())
                 .build();
     }
 }
