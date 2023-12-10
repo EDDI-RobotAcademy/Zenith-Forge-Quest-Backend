@@ -1,6 +1,5 @@
 package com.cafe.backend.questionBoard.controller;
 
-import com.cafe.backend.questionBoard.controller.form.QuestionTestForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
