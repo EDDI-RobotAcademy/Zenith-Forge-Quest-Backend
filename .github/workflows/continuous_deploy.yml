@@ -39,6 +39,7 @@ jobs:
             echo "${{ secrets.DEPLOY_APPLICATION_PROPERTIES }}" > application.properties
             echo "${{ secrets.DEPLOY_MYSQL_PROPERTIES }}" >> application.properties
             echo "${{ secrets.DEPLOY_CORS_PROPERTIES }}" >> application.properties
+            echo "${{ secrets.DEPLOY_SWAGGER_PROPERTIES }}" >> application.properties
 
         - name: Grant Permission to gradlew
           run: chmod +x gradlew
