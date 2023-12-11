@@ -39,6 +39,7 @@ jobs:
             echo "${{ secrets.DEPLOY_APPLICATION_PROPERTIES }}" > application.properties
             echo "${{ secrets.DEPLOY_MYSQL_PROPERTIES }}" >> application.properties
             echo "${{ secrets.DEPLOY_CORS_PROPERTIES }}" >> application.properties
+            echo "${{ secrets.DEPLOY_SWAGGER_PROPERTIES }}" >> application.properties
 
         - name: Grant Permission to gradlew
           run: chmod +x gradlew
@@ -86,6 +87,7 @@ jobs:
           host: ${{ secrets.PUBLIC_IP }}
           username: ec2-user
           key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
           script_stop: true
           script: |
             pwd
