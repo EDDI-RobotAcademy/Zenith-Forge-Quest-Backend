@@ -3,12 +3,11 @@ package com.cafe.backend.menu.service;
 import com.cafe.backend.common.exception.custom.NotFoundException;
 import com.cafe.backend.menu.entity.Menu;
 import com.cafe.backend.menu.repository.MenuRepository;
-import com.cafe.backend.menu.service.dto.MenuAddRequest;
-import com.cafe.backend.menu.service.dto.MenuModifyRequest;
-import com.cafe.backend.menu.service.dto.MenuPageRequest;
-import com.cafe.backend.menu.service.dto.MenuReadResponse;
+import com.cafe.backend.menu.service.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +29,29 @@ public class MenuService {
         recursive(parentMenu);
     }
 
+    public MenuReadResponse get(Long id) {
+        return MenuReadResponse.of(getMenu(id));
+    }
+
+    public void modify(Long id, MenuModifyRequest menuModifyRequest) {
+        Menu menu = getMenu(id);
+        menu.update(menuModifyRequest.toEntity());
+    }
+
+    public void remove(Long id) {
+        menuRepository.delete(getMenu(id));
+    }
+
+    public Page<MenuPageResponse> getPage(MenuPageRequest menuPageRequest, Pageable pageable) {
+        Page<Menu> page = menuRepository.getPage(menuPageRequest, pageable);
+        return new PageImpl<>(MenuPageResponse.of(page.getContent()), pageable, page.getTotalElements());
+    }
+
+    private Menu getMenu(Long id) {
+        return menuRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("해당 아이디를 가진 메뉴가 없습니다."));
+    }
+
     private void recursive(Menu parentMenu) {
         List<Menu> children = parentMenu.getChildren();
 
@@ -40,27 +62,5 @@ public class MenuService {
                 recursive(child);
             }
         }
-    }
-
-    public MenuReadResponse get(Long id) {
-        return MenuReadResponse.of(getMenu(id));
-    }
-
-    public void modify(Long id, MenuModifyRequest menuModifyRequest) {
-        Menu menu = getMenu(id);
-        menu.update(menuModifyRequest);
-    }
-
-    public void remove(Long id) {
-        menuRepository.delete(getMenu(id));
-    }
-
-    public void getPage(MenuPageRequest menuPageRequest, Pageable pageable) {
-        menuRepository.findAll();
-    }
-
-    private Menu getMenu(Long id) {
-        return menuRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("해당 아이디를 가진 메뉴가 없습니다."));
     }
 }
