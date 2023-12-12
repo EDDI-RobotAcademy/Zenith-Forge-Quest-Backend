@@ -48,6 +48,24 @@ public class UserProfileTests {
     }
 
     @Test
+    @DisplayName("check duplicate nickname")
+    public void 닉네임의_중복_여부를_확인합니다() {
+        final String enteredByUserNickname = "대상혁";
+
+        final UserProfile userProfile = new UserProfile(
+                "faker@test.com",
+                "nickname",
+                "010-1234-1234"
+        );
+
+        when(mockUserProfileRepository.findUserProfileByNickname(enteredByUserNickname))
+                .thenReturn(Optional.of(userProfile));
+
+        Boolean isAlreadyExistNickname = mockUserProfileService.checkDuplicateNickname(enteredByUserNickname);
+        assertEquals(isAlreadyExistNickname, false);
+    }
+
+    @Test
     @DisplayName("modify user profile info")
     public boolean 회원의_프로필_정보를_수정합니다() {
         // user

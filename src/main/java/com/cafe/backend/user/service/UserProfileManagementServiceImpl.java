@@ -32,6 +32,19 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     }
 
     @Override
+    public Boolean checkDuplicateNickname(String nickname) {
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByNickname(nickname);
+
+        if (maybeUserProfile.isEmpty()) {
+            log.info("can use this nickname!");
+            return true;
+        } else {
+            log.info("already exist nickname!");
+            return false;
+        }
+    }
+
+    @Override
     public Boolean modifyUserProfileInfo(UserProfileInfoModifyRequest request) {
         log.info("modifyUserProfileInfo() start!");
         final User user = userRepository.findByUserToken(request.getUserToken());

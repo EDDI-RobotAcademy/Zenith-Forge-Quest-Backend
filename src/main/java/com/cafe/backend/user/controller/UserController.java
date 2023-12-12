@@ -29,4 +29,9 @@ public class UserController {
         log.info("checkDuplicateEmail(): " + email);
         return userProfileService.checkDuplicateEmail(email);
     }
+
+    @GetMapping(value = "/check-duplicate-nickname")
+    public Boolean checkDuplicateNickname(@RequestParam("nickname") String nickname) {
+        return userProfileService.checkDuplicateNickname(nickname);
+    }
 }
