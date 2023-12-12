@@ -31,7 +31,6 @@ public class UserProfileTests {
 
     @Test
     @DisplayName("check duplicate email")
-    public void 프로필을_등록할_때_이메일이_존재하는지_확인합니다() {
     public void 이메일의_중복_여부를_확인합니다() {
         final String enteredByUserEmail = "test@test.com";
 
