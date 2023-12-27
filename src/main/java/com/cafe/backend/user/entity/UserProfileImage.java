@@ -19,18 +19,21 @@ public class UserProfileImage {
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 
-    private String uniqueRandomName;
+    private String userProfileImage;
 
-    public UserProfileImage(String uniqueRandomName) {
-        this.uniqueRandomName = uniqueRandomName;
+    public UserProfileImage(String prefixWithFileName) {
+        this.userProfileImage = prefixWithFileName;
     }
 
-    public static UserProfileImage of(String uniqueRandomName) {
-        return new UserProfileImage(uniqueRandomName);
+    public static UserProfileImage of(String prefixWithFileName) {
+        return new UserProfileImage(prefixWithFileName);
     }
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
 
+    public void ModifyUserProfileImage(String prefixWithFileName) {
+        this.userProfileImage = prefixWithFileName;
+    }
 }
