@@ -48,12 +48,11 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     public Boolean modifyUserProfileInfo(UserProfileInfoModifyRequest request) {
         log.info("modifyUserProfileInfo() start!");
         final User user = userRepository.findByUserToken(request.getUserToken());
-        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
-
         if (user == null) {
             return false;
         }
 
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
         if (maybeUserProfile.isPresent()) {
             UserProfile userProfile = maybeUserProfile.get();
             userProfile.ModifyUserProfile(

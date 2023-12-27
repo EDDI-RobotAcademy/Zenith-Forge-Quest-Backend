@@ -15,7 +15,6 @@ public class UserController {
     final private UserProfileManagementService userProfileService;
 
     // 회원 프로필 정보 수정
-
     @PutMapping("/modify-user-profile-info")
     public Boolean modifyUserProfileInfo(@RequestBody UserProfileInfoModifyRequestForm form) {
         log.info("modifyUserProfile(): " + form);

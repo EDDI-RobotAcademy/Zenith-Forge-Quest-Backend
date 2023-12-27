@@ -1,7 +1,10 @@
 package com.cafe.backend.UserProfileTests;
 
+import com.cafe.backend.user.controller.form.UserProfileImageModifyRequestForm;
 import com.cafe.backend.user.entity.User;
 import com.cafe.backend.user.entity.UserProfile;
+import com.cafe.backend.user.entity.UserProfileImage;
+import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
 import com.cafe.backend.user.service.UserProfileManagementServiceImpl;
@@ -22,9 +25,9 @@ import static org.mockito.Mockito.when;
 public class UserProfileTests {
 
     @Mock
-    private UserProfileManagementRepository mockUserProfileRepository;
-    @Mock
     private UserRepository mockUserRepository;
+    @Mock
+    private UserProfileManagementRepository mockUserProfileRepository;
 
     @InjectMocks
     private UserProfileManagementServiceImpl mockUserProfileService;
@@ -68,6 +71,7 @@ public class UserProfileTests {
     @Test
     @DisplayName("modify user profile info")
     public boolean 회원의_프로필_정보를_수정합니다() {
+    public void 회원의_프로필_정보를_수정합니다() {
         // user
         final String userId = "1";
         final String accessToken = "at1";
@@ -77,7 +81,6 @@ public class UserProfileTests {
         final Optional<UserProfile> maybeUserProfile = mockUserProfileRepository.findUserProfileByUser(user);
 
         if (user == null) {
-            return false;
         }
 
         if (maybeUserProfile.isPresent()) {
@@ -88,9 +91,7 @@ public class UserProfileTests {
                     "010-9999-9999"
             );
             mockUserProfileRepository.save(userProfile);
-            return true;
         }
-        return false;
     }
 
 }
