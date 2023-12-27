@@ -27,6 +27,8 @@ public class UserProfileTests {
     @Mock
     private UserRepository mockUserRepository;
     @Mock
+    private UserProfileImageRepository mockUserProfileImageRepository;
+    @Mock
     private UserProfileManagementRepository mockUserProfileRepository;
 
     @InjectMocks
@@ -70,7 +72,6 @@ public class UserProfileTests {
 
     @Test
     @DisplayName("modify user profile info")
-    public boolean 회원의_프로필_정보를_수정합니다() {
     public void 회원의_프로필_정보를_수정합니다() {
         // user
         final String userId = "1";
@@ -92,6 +93,17 @@ public class UserProfileTests {
             );
             mockUserProfileRepository.save(userProfile);
         }
+    }
+
+    @Test
+    @DisplayName("modify user profile info")
+    public void 회원의_프로필_사진을_수정합니다() {
+        UserProfileImage userProfileImage = new UserProfileImage("test_image.jpg");
+
+        UserProfileImageModifyRequestForm form = new
+
+
+
     }
 
 }

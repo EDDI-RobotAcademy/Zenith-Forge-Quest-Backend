@@ -1,10 +1,13 @@
 package com.cafe.backend.user.controller;
 
+import com.cafe.backend.user.controller.form.UserProfileImageModifyRequestForm;
 import com.cafe.backend.user.controller.form.UserProfileInfoModifyRequestForm;
 import com.cafe.backend.user.service.UserProfileManagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -21,11 +24,18 @@ public class UserController {
         return userProfileService.modifyUserProfileInfo(form.toModifyUserProfileInfo());
     }
 
+    // 회원 프로필 이미지 수정
+    @PutMapping(value = "/modify-user-profile-image",
+                consumes = { MediaType.MULTIPART_FORM_DATA_VALUE,
+                                MediaType.APPLICATION_JSON_VALUE })
+    public Boolean modifyUserProfileImage(@RequestPart(value = "imageFile") MultipartFile imageFile,
+                                          @RequestPart(value = "userInfo") UserProfileImageModifyRequestForm form) {
+        return userProfileService.modifyUserProfileImage(form.toModifyUserProfileImage(imageFile));
+    }
 
     // 이메일 중복 검사
     @GetMapping(value = "/check-email")
     public Boolean checkDuplicateEmail(@RequestParam("email") String email) {
-        log.info("checkDuplicateEmail(): " + email);
         return userProfileService.checkDuplicateEmail(email);
     }
 

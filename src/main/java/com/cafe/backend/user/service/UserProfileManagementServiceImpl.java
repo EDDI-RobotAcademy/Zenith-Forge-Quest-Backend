@@ -2,8 +2,11 @@ package com.cafe.backend.user.service;
 
 import com.cafe.backend.user.entity.User;
 import com.cafe.backend.user.entity.UserProfile;
+import com.cafe.backend.user.entity.UserProfileImage;
+import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
+import com.cafe.backend.user.service.request.UserProfileImageModifyRequest;
 import com.cafe.backend.user.service.request.UserProfileInfoModifyRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserProfileManagementServiceImpl implements UserProfileManagementService {
     final private UserRepository userRepository;
+    final private UserProfileImageRepository userProfileImageRepository;
     final private UserProfileManagementRepository userProfileRepository;
 
     @Override
@@ -60,6 +64,20 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
                     request.getNickname(),
                     request.getPhoneNumber());
             userProfileRepository.save(userProfile);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean modifyUserProfileImage(UserProfileImageModifyRequest request) {
+        log.info("modifyUserProfileImage() start!");
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByEmail(request.getEmail());
+        if (maybeUserProfile.isPresent()) {
+            UserProfileImage userProfileImage = maybeUserProfile.get().getUserProfileImage();
+            userProfileImage.ModifyUserProfileImage(
+                    request.getPrefixWithFileName());
+            userProfileImageRepository.save(userProfileImage);
             return true;
         }
         return false;
