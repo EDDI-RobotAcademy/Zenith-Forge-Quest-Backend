@@ -1,12 +1,20 @@
 package com.cafe.backend.questionBoard.controller;
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardSearchRequestForm;
 
+
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import com.cafe.backend.questionBoard.dto.QuestionBoardRequest;
+
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +26,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/question-board")
+@Tag(name = "Question Board", description = "Question Board API")
 @RequiredArgsConstructor
 public class QuestionBoardController {
 
@@ -31,10 +40,16 @@ public class QuestionBoardController {
         return new ResponseEntity<>(questionBoard, HttpStatus.CREATED);
     }
 
+
     @GetMapping(value = "/list/nonUser")
     public ResponseEntity<Object> getQuestionNonUser () {
         List<QuestionBoard> questionBoard = service.getQuestionByNonUser();
         return new ResponseEntity<>(questionBoard, HttpStatus.OK);
+
+    @GetMapping("/test")
+    @Operation(summary = "Question Board Test", description = "질문 게시판 테스트입니다.")
+    public String justTest () {
+        return "Question Board Test";
     }
 
     @GetMapping(value = "/list/user")
