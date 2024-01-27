@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 public record MenuAddForm(
         @NotBlank String name,
-                  String url,
+        @NotBlank String url,
         @NotNull  Long sort,
         @Valid    List<MenuAddForm> children
 ) {
