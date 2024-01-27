@@ -1,9 +1,6 @@
 package com.cafe.backend.user.service;
 
-import com.cafe.backend.user.entity.Email;
-import com.cafe.backend.user.entity.User;
-import com.cafe.backend.user.entity.UserProfile;
-import com.cafe.backend.user.entity.UserProfileImage;
+import com.cafe.backend.user.entity.*;
 import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
@@ -40,7 +37,9 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
 
     @Override
     public Boolean checkDuplicateNickname(String nickname) {
-        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByNickname(nickname);
+        Nickname userNickname = new Nickname(nickname);
+
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByNickname(userNickname.getNickname());
 
         if (maybeUserProfile.isEmpty()) {
             log.info("can use this nickname!");
