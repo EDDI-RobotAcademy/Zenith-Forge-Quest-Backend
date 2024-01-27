@@ -1,5 +1,6 @@
 package com.cafe.backend.user.service;
 
+import com.cafe.backend.user.entity.Email;
 import com.cafe.backend.user.entity.User;
 import com.cafe.backend.user.entity.UserProfile;
 import com.cafe.backend.user.entity.UserProfileImage;
@@ -24,7 +25,9 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
 
     @Override
     public Boolean checkDuplicateEmail(String email) {
-        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByEmail(email);
+        Email emailAddress = new Email(email);
+
+        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByEmail(emailAddress.getEmail());
 
         if (maybeUserProfile.isEmpty()) {
             log.info("can use this email!");

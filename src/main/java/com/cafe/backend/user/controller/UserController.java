@@ -1,7 +1,7 @@
 package com.cafe.backend.user.controller;
 
-import com.cafe.backend.user.controller.form.UserProfileImageModifyRequestForm;
-import com.cafe.backend.user.controller.form.UserProfileInfoModifyRequestForm;
+import com.cafe.backend.user.controller.requestForm.UserProfileImageModifyRequestForm;
+import com.cafe.backend.user.controller.requestForm.UserProfileInfoModifyRequestForm;
 import com.cafe.backend.user.service.UserProfileManagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

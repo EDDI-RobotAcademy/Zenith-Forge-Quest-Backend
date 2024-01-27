@@ -1,4 +1,4 @@
-package com.cafe.backend.user.controller.form;
+package com.cafe.backend.user.controller.requestForm;
 
 import com.cafe.backend.user.service.request.UserProfileInfoModifyRequest;
 import lombok.*;
