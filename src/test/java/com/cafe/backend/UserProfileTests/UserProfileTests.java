@@ -1,9 +1,7 @@
 package com.cafe.backend.UserProfileTests;
 
-import com.cafe.backend.user.controller.form.UserProfileImageModifyRequestForm;
 import com.cafe.backend.user.entity.User;
 import com.cafe.backend.user.entity.UserProfile;
-import com.cafe.backend.user.entity.UserProfileImage;
 import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
@@ -12,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -95,15 +92,15 @@ public class UserProfileTests {
         }
     }
 
-    @Test
-    @DisplayName("modify user profile info")
-    public void 회원의_프로필_사진을_수정합니다() {
-        UserProfileImage userProfileImage = new UserProfileImage("test_image.jpg");
-
-        UserProfileImageModifyRequestForm form = new
-
-
-
-    }
+//    @Test
+//    @DisplayName("modify user profile info")
+//    public void 회원의_프로필_사진을_수정합니다() {
+//        UserProfileImage userProfileImage = new UserProfileImage("test_image.jpg");
+//
+//        UserProfileImageModifyRequestForm form = new
+//
+//
+//
+//    }
 
 }
