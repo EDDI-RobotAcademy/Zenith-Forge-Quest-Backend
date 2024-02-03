@@ -75,20 +75,20 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     @Override
     public Boolean modifyUserProfileInfo(UserProfileInfoModifyRequest request) {
         log.info("modifyUserProfileInfo() start!");
-        final User user = userRepository.findByUserToken(request.getUserToken());
-        if (user == null) {
+        Optional<User> maybeUser = userRepository.findByUserToken(request.getUserToken());
+        if (maybeUser.isEmpty()) {
             return false;
         }
 
-        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
+        final User user = maybeUser.get();
+
+        Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
         if (maybeUserProfile.isPresent()) {
             UserProfile userProfile = maybeUserProfile.get();
             userProfile.ModifyUserProfile(
                     request.getEmail(),
                     request.getNickname(),
                     request.getPhoneNumber());
-            userProfileRepository.save(userProfile);
-            return true;
         }
         return false;
     }
