@@ -3,6 +3,7 @@ package com.cafe.backend.user.controller;
 import com.cafe.backend.user.controller.requestForm.UserProfileImageModifyRequestForm;
 import com.cafe.backend.user.controller.requestForm.UserProfileInfoModifyRequestForm;
 import com.cafe.backend.user.service.UserProfileManagementService;
+import com.cafe.backend.user.service.response.UserProfileResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -16,6 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     final private UserProfileManagementService userProfileService;
+
+    @GetMapping("/find-user-profile")
+    public UserProfileResponse findUserProfile(@RequestParam("userToken") String userToken) {
+        return userProfileService.findUserProfileByUserToken(userToken);
+    }
 
     // 회원 프로필 정보 수정
     @PutMapping("/modify-user-profile-info")
