@@ -1,18 +1,18 @@
 package com.cafe.backend.common.kakaoOAuth;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-@Getter
+@Data
 @PropertySource(value = "classpath:application.properties")
 @Configuration
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class KakaoOAuthSecretsProvider {
     @Value("${kakao.oauth.restapi.key}")
-    final private String KAKAO_AUTH_RESTAPI_KEY;
+    private String KAKAO_AUTH_RESTAPI_KEY;
 
     @Value("${kakao.oauth.redirect.url}")
     private String KAKAO_AUTH_REDIRECT_URL;
