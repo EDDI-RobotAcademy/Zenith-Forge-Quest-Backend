@@ -89,6 +89,7 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
                     request.getEmail(),
                     request.getNickname(),
                     request.getPhoneNumber());
+            userProfileRepository.save(userProfile);
         }
         return false;
     }
