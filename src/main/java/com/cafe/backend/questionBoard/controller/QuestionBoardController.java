@@ -5,10 +5,10 @@ import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterReque
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardTopicRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
 import com.cafe.backend.questionBoard.entity.Topic;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
-import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/question-board")
+@Tag(name = "Question Board", description = "Question Board API")
 @RequiredArgsConstructor
 public class QuestionBoardController {
 
