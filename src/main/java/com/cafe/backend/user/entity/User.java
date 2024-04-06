@@ -2,11 +2,13 @@ package com.cafe.backend.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class User {
     @Id

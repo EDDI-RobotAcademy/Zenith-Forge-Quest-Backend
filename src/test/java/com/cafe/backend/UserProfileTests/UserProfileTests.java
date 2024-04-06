@@ -2,6 +2,7 @@ package com.cafe.backend.UserProfileTests;
 
 import com.cafe.backend.user.entity.User;
 import com.cafe.backend.user.entity.UserProfile;
+import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
 import com.cafe.backend.user.service.UserProfileManagementServiceImpl;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -22,16 +22,18 @@ import static org.mockito.Mockito.when;
 public class UserProfileTests {
 
     @Mock
-    private UserProfileManagementRepository mockUserProfileRepository;
-    @Mock
     private UserRepository mockUserRepository;
+    @Mock
+    private UserProfileImageRepository mockUserProfileImageRepository;
+    @Mock
+    private UserProfileManagementRepository mockUserProfileRepository;
 
     @InjectMocks
     private UserProfileManagementServiceImpl mockUserProfileService;
 
     @Test
     @DisplayName("check duplicate email")
-    public void 프로필을_등록할_때_이메일이_존재하는지_확인합니다() {
+    public void 이메일의_중복_여부를_확인합니다() {
         final String enteredByUserEmail = "test@test.com";
 
         final UserProfile userProfile = new UserProfile(
@@ -48,8 +50,26 @@ public class UserProfileTests {
     }
 
     @Test
+    @DisplayName("check duplicate nickname")
+    public void 닉네임의_중복_여부를_확인합니다() {
+        final String enteredByUserNickname = "대상혁";
+
+        final UserProfile userProfile = new UserProfile(
+                "faker@test.com",
+                "nickname",
+                "010-1234-1234"
+        );
+
+        when(mockUserProfileRepository.findUserProfileByNickname(enteredByUserNickname))
+                .thenReturn(Optional.of(userProfile));
+
+        Boolean isAlreadyExistNickname = mockUserProfileService.checkDuplicateNickname(enteredByUserNickname);
+        assertEquals(isAlreadyExistNickname, false);
+    }
+
+    @Test
     @DisplayName("modify user profile info")
-    public boolean 회원의_프로필_정보를_수정합니다() {
+    public void 회원의_프로필_정보를_수정합니다() {
         // user
         final String userId = "1";
         final String accessToken = "at1";
@@ -59,7 +79,6 @@ public class UserProfileTests {
         final Optional<UserProfile> maybeUserProfile = mockUserProfileRepository.findUserProfileByUser(user);
 
         if (user == null) {
-            return false;
         }
 
         if (maybeUserProfile.isPresent()) {
@@ -70,9 +89,18 @@ public class UserProfileTests {
                     "010-9999-9999"
             );
             mockUserProfileRepository.save(userProfile);
-            return true;
         }
-        return false;
     }
+
+//    @Test
+//    @DisplayName("modify user profile info")
+//    public void 회원의_프로필_사진을_수정합니다() {
+//        UserProfileImage userProfileImage = new UserProfileImage("test_image.jpg");
+//
+//        UserProfileImageModifyRequestForm form = new
+//
+//
+//
+//    }
 
 }
