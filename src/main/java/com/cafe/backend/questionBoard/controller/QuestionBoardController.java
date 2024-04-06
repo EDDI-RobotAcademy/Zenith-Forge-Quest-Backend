@@ -2,8 +2,11 @@ package com.cafe.backend.questionBoard.controller;
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardSearchRequestForm;
 
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
+import com.cafe.backend.questionBoard.controller.form.QuestionBoardTopicRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
+import com.cafe.backend.questionBoard.entity.Topic;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
+import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,13 @@ public class QuestionBoardController {
 
     private final QuestionBoardService service;
     private final ObjectMapper objectMapper;
+
+    @PostMapping(value = "/register/topic")
+    public ResponseEntity<Object> registerTopicQuestionBoard (@RequestBody QuestionBoardTopicRequestForm createTopic) {
+        Topic topic = service.createQuestionTopic(createTopic.toQuestionBoardRegisterRequest());
+
+        return new ResponseEntity<>(topic, HttpStatus.CREATED);
+    }
 
     @PostMapping(value = "/register")
     public ResponseEntity<Object> registerQuestionBoard (@RequestBody QuestionBoardRegisterRequestForm createRequest) {

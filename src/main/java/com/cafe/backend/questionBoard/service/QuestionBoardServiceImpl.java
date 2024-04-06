@@ -1,13 +1,10 @@
 package com.cafe.backend.questionBoard.service;
 
-import com.cafe.backend.questionBoard.entity.QuestionBoard;
-import com.cafe.backend.questionBoard.entity.QuestionBoardTag;
-import com.cafe.backend.questionBoard.entity.Tag;
-import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
-import com.cafe.backend.questionBoard.repository.QuestionBoardTagRepository;
-import com.cafe.backend.questionBoard.repository.TagRepository;
+import com.cafe.backend.questionBoard.entity.*;
+import com.cafe.backend.questionBoard.repository.*;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
+import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -24,15 +21,28 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
     private final QuestionBoardRepository questionBoardRepository;
     private final TagRepository tagRepository;
     private final QuestionBoardTagRepository questionBoardTagRepository;
+    private final TopicRepository topicRepository;
 
     @Override
     public QuestionBoard createQuestion(QuestionBoardRegisterRequest createRequest) {
         //TODO user id - memeber 작업 후 재작업 예정
         //TODO topic  작업 후 추가 보수 예정
         QuestionBoard questionBoard = questionBoardRepository.save(createRequest.toQuestionBord());
+
+        if(validateQuestionBoardTopic(createRequest)){
+            throw new IllegalArgumentException("관련된 topic이 없습니다.");
+        }
+
         createQuestionBoardTag(createRequest, questionBoard);
-        questionBoard.setTagsFromQuestionBoardId(findTagsFromQuestionBoardId(questionBoard.getId()));
+
         return questionBoard ;
+    }
+
+    private boolean validateQuestionBoardTopic(QuestionBoardRegisterRequest createRequest) {
+        Optional<Topic> hasTopicContent = topicRepository.findByContent(createRequest.getContent());
+        if(hasTopicContent.isPresent()){
+            return true;
+        }else return false;
     }
 
     private void createQuestionBoardTag(QuestionBoardRegisterRequest createRequest, QuestionBoard questionBoard) {
@@ -45,10 +55,6 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
                 questionBoardTagRepository.save(createRequest.toQuestionBoardexistingTag(newTag,  questionBoard));
             }
         }
-    }
-
-    private List<Tag> findTagsFromQuestionBoardId(Long questionBoardId) {
-        return tagRepository.findTagsByQuestionBoardId(questionBoardId);
     }
 
 
@@ -70,6 +76,16 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
         Specification<QuestionBoard> questionBoardSpecification = QuestionBoardSpecifications.searchQuestionBoard(searchForm);
         return questionBoardRepository.findAll(questionBoardSpecification);
     }
-    
-    
+
+    @Override
+    public Topic createQuestionTopic(QuestionBoardTopicRegisterRequest createRequest) {
+        if(createRequest.getUserId().equals("admin")){
+            return topicRepository.save(createRequest.toTopic(createRequest.getTopic()));
+        }else {
+            throw new IllegalArgumentException("no admin user");
+        }
+
+    }
+
+
 }

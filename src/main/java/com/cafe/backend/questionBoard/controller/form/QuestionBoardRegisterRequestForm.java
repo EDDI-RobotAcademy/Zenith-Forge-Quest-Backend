@@ -15,7 +15,7 @@ public class QuestionBoardRegisterRequestForm {
     private final String title;
     private final String content;
     private final String userId;
-    private final String category;
+    private final String topic;
     private final List<String> tags;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
@@ -23,12 +23,12 @@ public class QuestionBoardRegisterRequestForm {
             @JsonProperty("title") String title,
             @JsonProperty("content") String content,
             @JsonProperty("userId") String userId,
-            @JsonProperty("category") String category,
+            @JsonProperty("topic") String topic,
             @JsonProperty("tags") List<String> tags) {
         this.title = title;
         this.content = content;
         this.userId = userId;
-        this.category = category;
+        this.topic = topic;
         this.tags = tags;
     }
 
@@ -36,6 +36,6 @@ public class QuestionBoardRegisterRequestForm {
         QuestionBoardContent questionBoardContent = new QuestionBoardContent(content);
         questionBoardContent.validateContent();
 
-        return new QuestionBoardRegisterRequest(title, content, userId, category, tags);
+        return new QuestionBoardRegisterRequest(title, content, userId, topic, tags);
     }
 }

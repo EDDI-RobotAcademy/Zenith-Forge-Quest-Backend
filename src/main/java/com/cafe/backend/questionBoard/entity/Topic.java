@@ -4,13 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
-@Table(name = "tag")
+@Table(name="topic")
 @Getter
 @NoArgsConstructor
-public class Tag {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,9 +16,9 @@ public class Tag {
     @Column(nullable = false, length = 200)
     private String content;
 
-    public Tag(String content) {
-        TagContent tagContent = new TagContent(content);
-        tagContent.validateContent();
+    public Topic(String content) {
+        TopicContent topicContent = new TopicContent(content);
+        topicContent.validateContent();
         this.content = content;
     }
 }

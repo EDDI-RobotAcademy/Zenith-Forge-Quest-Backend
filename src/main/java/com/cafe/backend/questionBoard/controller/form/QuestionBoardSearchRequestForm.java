@@ -12,7 +12,7 @@ public class QuestionBoardSearchRequestForm {
     final private QuestionBoardSearchType searchType;
     final private String searchWord;
     final private String tags;
-    final private String category;
+    final private String topic;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public QuestionBoardSearchRequestForm(
@@ -20,15 +20,15 @@ public class QuestionBoardSearchRequestForm {
             @JsonProperty("searchWord") String searchWord,
             @JsonProperty("userId") String userId,
             @JsonProperty("tags") String tags,
-            @JsonProperty("category") String category) {
+            @JsonProperty("topic") String topic) {
         this.searchType = searchType;
         this.searchWord = searchWord;
         this.userId = userId;
-        this.category = category;
+        this.topic = topic;
         this.tags = tags;
     }
 
     public QuestionBoardSearchRequest toQuestionBoardSearchRequest() {
-        return new QuestionBoardSearchRequest(userId, searchType, searchWord, tags, category);
+        return new QuestionBoardSearchRequest(userId, searchType, searchWord, tags, topic);
     }
 }

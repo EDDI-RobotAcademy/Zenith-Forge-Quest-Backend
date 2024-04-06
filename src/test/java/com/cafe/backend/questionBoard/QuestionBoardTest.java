@@ -6,6 +6,7 @@ import com.cafe.backend.questionBoard.entity.Tag;
 import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
 import com.cafe.backend.questionBoard.repository.QuestionBoardTagRepository;
 import com.cafe.backend.questionBoard.repository.TagRepository;
+import com.cafe.backend.questionBoard.repository.TopicRepository;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import com.cafe.backend.questionBoard.service.QuestionBoardServiceImpl;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
@@ -53,6 +54,9 @@ public class QuestionBoardTest {
     @Mock
     private QuestionBoardTagRepository questionBoardTagRepository;
 
+    @Mock
+    private TopicRepository topicRepository;
+
     @InjectMocks
     private QuestionBoardServiceImpl questionBoardService;
 
@@ -79,12 +83,12 @@ public class QuestionBoardTest {
 
         doReturn(expectedBoard).when(questionBoardRepository).save(any(QuestionBoard.class));
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository, topicRepository);
         final QuestionBoard actual = service.createQuestion(request);
 
         assertEquals(actual.getTitle(), expectedBoard.getTitle());
         assertEquals(actual.getContent(), expectedBoard.getContent());
-        assertEquals(actual.getCategory(), expectedBoard.getCategory());
+        assertEquals(actual.getTopic(), expectedBoard.getTopic());
         assertEquals(actual.getUserId(), expectedBoard.getUserId());
     }
 
@@ -94,7 +98,7 @@ public class QuestionBoardTest {
         doReturn(Collections.emptyList())
                 .when(questionBoardRepository).findAllByOrderById();
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository,tagRepository, questionBoardTagRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository,tagRepository, questionBoardTagRepository, topicRepository);
         final List<QuestionBoard> actual = service.getQuestionByNonUser();
 
         assertTrue(actual.isEmpty());
@@ -152,7 +156,7 @@ public class QuestionBoardTest {
                 .andExpect(jsonPath("$.title").value(registerRequestForm.getTitle()))
                 .andExpect(jsonPath("$.content").value(registerRequestForm.getContent()))
                 .andExpect(jsonPath("$.userId").value(registerRequestForm.getUserId()))
-                .andExpect(jsonPath("$.category").value(registerRequestForm.getCategory()))
+                .andExpect(jsonPath("$.topic").value(registerRequestForm.getTopic()))
                 .andExpect(jsonPath("$.tags[0].content").value(tags.get(0)))
                 .andExpect(jsonPath("$.tags[1].content").value(tags.get(1)));
     }
