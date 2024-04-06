@@ -62,13 +62,4 @@ public class QuestionBoardController {
 
         return new ResponseEntity<Object>(questionBoard,null, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/list/search")
-    public ResponseEntity<Object> getQuestionSeasrchData (@RequestParam Map<String,Object> params) {
-
-        QuestionBoardSearchRequestForm searchForm = objectMapper.convertValue(params, QuestionBoardSearchRequestForm.class);
-        List<QuestionBoard> questionBoard = service.getQuestionSearchData(searchForm.toQuestionBoardSearchRequest());
-
-        return new ResponseEntity<Object>(questionBoard,null, HttpStatus.OK);
-    }
 }
