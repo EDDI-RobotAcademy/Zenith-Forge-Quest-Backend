@@ -36,9 +36,18 @@ public class QuestionBoard {
     private Topic topic;
 
     public QuestionBoard(String title, String content, String userId, String topic) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.userId = userId;
+//        this.topic = topic;
+    }
+    public QuestionBoard(Long id, String title, String content, String userId, String topic) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.userId = userId;
+//        this.topic = topic;
     }
 
     public void setTagsFromQuestionBoardId(List<Tag> questionTags){

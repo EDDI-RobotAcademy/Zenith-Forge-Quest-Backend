@@ -2,6 +2,7 @@ package com.cafe.backend.questionBoard.service;
 
 import com.cafe.backend.questionBoard.entity.*;
 import com.cafe.backend.questionBoard.repository.*;
+import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
@@ -10,7 +11,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +85,13 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
             throw new IllegalArgumentException("no admin user");
         }
 
+    }
+
+    @Override
+    public QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest questionBoardModifyRequest) {
+        QuestionBoard questionBoard = questionBoardRepository.save(questionBoardModifyRequest.toQuestionBord());
+
+        return questionBoard;
     }
 
 
