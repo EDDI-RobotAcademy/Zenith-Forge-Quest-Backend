@@ -1,5 +1,7 @@
 package com.cafe.backend.kakaoOAuth.service;
 
-public interface KakaoOAuthService {
+import com.cafe.backend.kakaoOAuth.controller.requestForm.KakaoUserLoginRequestForm;
 
+public interface KakaoOAuthService {
+    KakaoUserLoginRequestForm kakaoLogin(String code);
 }
