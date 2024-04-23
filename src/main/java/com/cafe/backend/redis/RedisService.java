@@ -3,7 +3,7 @@ package com.cafe.backend.redis;
 
 public interface RedisService {
 
-    void setUserTokenAndUser (String UUID, String userId);
-    String getAccessToken(String userToken);
-    void deleteKeyAndValueWithUserToken(String userToken);
+    void setKeyAndValue(String token, String accountId);
+    Long getValueByKey(String token);
+    void deleteByKey(String token);
 }

@@ -8,38 +8,42 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RedisServiceImpl implements RedisService {
 
     final private RedisTemplate<String, String> redisTemplate;
-    final private ObjectMapper objectMapper;
 
     @Override
-    public void setUserTokenAndUser (String userToken, String accessToken) {
+    public void setKeyAndValue(String token, String accountId) {
         ValueOperations<String, String> value = redisTemplate.opsForValue();
-        value.set(userToken, accessToken);
+        value.set(token, accountId, Duration.ofMinutes(60));
     }
 
     @Override
-    public String getAccessToken(String userToken) {
+    public Long getValueByKey(String token) {
         ValueOperations<String, String> value = redisTemplate.opsForValue();
-        String accessToken = value.get(userToken);
+        String tmpAccountId = value.get(token);
+        Long accountId;
 
-        if(accessToken == null) {
-            return null;
+        if (tmpAccountId == null) {
+            accountId = null;
+        } else {
+            accountId = Long.parseLong(tmpAccountId);
         }
 
-        return accessToken;
+        return accountId;
     }
 
     @Override
-    public void deleteKeyAndValueWithUserToken(String userToken){
-        try {
-            redisTemplate.delete(userToken);
-        } catch (RedisException e) {
-            log.error("Error while deleting key and value for userToken: {}", userToken, e);
-        }
+    public void deleteByKey(String token) {
+        redisTemplate.delete(token);
+    }
+
+    public Boolean isRefreshTokenExists(String token) {
+        return getValueByKey(token) != null;
     }
 }

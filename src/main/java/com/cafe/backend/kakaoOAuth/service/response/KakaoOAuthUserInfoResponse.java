@@ -2,8 +2,10 @@ package com.cafe.backend.kakaoOAuth.service.response;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class KakaoOAuthUserInfoResponse {
     private String id;
     private String connected_at;
@@ -14,4 +16,6 @@ public class KakaoOAuthUserInfoResponse {
         private String nickname;
         private String profile_image;
     }
+
+
 }

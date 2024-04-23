@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class KakaoUserLoginRequestForm {
     private String accessToken;
     private String refreshToken;
-    private String id;
+    private String idToken;
     private String nickName;
     private String picture;
 }

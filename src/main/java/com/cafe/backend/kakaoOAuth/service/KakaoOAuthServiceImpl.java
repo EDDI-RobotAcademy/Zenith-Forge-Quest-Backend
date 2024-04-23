@@ -21,6 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService {
 
     @Override
     public KakaoUserLoginRequestForm kakaoLogin(String code) {
-        log.info("kakaoLogin()");
+        log.info("kakaoLogin() -> code: {}", code);
 
         // 카카오 서버에서 accessToken 받아오기
         KakaoOAuthAccessTokenResponse kakaoOauthAccessTokenResponse = requestAccessTokenFromKakao(code);
@@ -43,6 +44,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService {
 
         // 카카오 서버에서 받아온 accessToken으로 사용자 정보 받아오기
         KakaoOAuthUserInfoResponse kakaoOauthUserInfoResponse = requestUserInfoFromKakao(accessToken);
+        log.info("kakaoOAuthUserInfoResponse: {}: ", kakaoOauthUserInfoResponse);
 
         KakaoUserLoginRequestForm kakaoUserLoginRequestForm
                 = new KakaoUserLoginRequestForm(
@@ -56,7 +58,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService {
     }
 
     private KakaoOAuthAccessTokenResponse requestAccessTokenFromKakao(String code) {
-        log.info("requestAccessTokenFromKakao start");
+        log.info("requestAccessTokenFromKakao() -> code: {}", code);
 
         final String kakaoClientId = kakaoOAuthSecretsProvider.getKAKAO_AUTH_RESTAPI_KEY();
         final String kakaoRedirectUrl = kakaoOAuthSecretsProvider.getKAKAO_AUTH_REDIRECT_URL();
@@ -80,7 +82,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService {
     }
 
     private KakaoOAuthUserInfoResponse requestUserInfoFromKakao(String accessToken) {
-        log.info("requestUserInfoFromKakao()");
+        log.info("requestUserInfoFromKakao() -> accessToken: {}", accessToken);
 
         final String kakaoUserInfoRequestUrl = kakaoOAuthSecretsProvider.getKAKAO_USERINFO_REQUEST_URL();
 
@@ -88,6 +90,9 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService {
             HttpHeaders httpHeaders = HttpHeaderCreator.createHttpHeader(
                     MediaType.APPLICATION_FORM_URLENCODED, "Accept", "application/json");
             httpHeaders.add("Authorization", "Bearer " + accessToken);
+
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(kakaoUserInfoRequestUrl)
+                    .queryParam("property_keys", "[\"kakao_account.email\"]");
 
             HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
 
