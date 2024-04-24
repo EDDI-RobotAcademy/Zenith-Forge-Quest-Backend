@@ -1,5 +1,5 @@
 package com.cafe.backend.questionBoard.controller;
-import com.cafe.backend.questionBoard.controller.form.QuestionBoardModifyRequestForm;
+//import com.cafe.backend.questionBoard.controller.form.QuestionBoardModifyRequestForm;
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardSearchRequestForm;
 
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
@@ -64,11 +64,11 @@ public class QuestionBoardController {
         return new ResponseEntity<Object>(questionBoard,null, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/modify/{id}")
-    public ResponseEntity<Object> modifyQuestionData (@RequestBody QuestionBoardModifyRequestForm requestForm,
-                                                      @PathVariable(name = "id") Long id) {
-        QuestionBoard board = service.modifyQuestionBoard(requestForm.toQuestionBoardModifyRequest(id));
-
-        return new ResponseEntity<Object>(board, HttpStatus.OK);
-    }
+//    @PutMapping(value = "/modify/{id}")
+//    public ResponseEntity<Object> modifyQuestionData (@RequestBody QuestionBoardModifyRequestForm requestForm,
+//                                                      @PathVariable(name = "id") Long id) {
+//        QuestionBoard board = service.modifyQuestionBoard(requestForm.toQuestionBoardModifyRequest(id));
+//
+//        return new ResponseEntity<Object>(board, HttpStatus.OK);
+//    }
 }

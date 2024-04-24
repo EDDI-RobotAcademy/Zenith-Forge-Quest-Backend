@@ -1,7 +1,7 @@
 package com.cafe.backend.questionBoard.service;
 
 import com.cafe.backend.questionBoard.entity.Topic;
-import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
+//import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
 
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
@@ -21,7 +21,7 @@ public interface QuestionBoardService {
 
     Topic createQuestionTopic(QuestionBoardTopicRegisterRequest toQuestionBoardRegisterRequest);
 
-    QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest toQuestionBoardModifyRequest);
+//    QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest toQuestionBoardModifyRequest);
 }
 
 /*

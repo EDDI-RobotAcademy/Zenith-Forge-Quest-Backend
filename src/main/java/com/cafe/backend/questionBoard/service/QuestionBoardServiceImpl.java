@@ -2,7 +2,7 @@ package com.cafe.backend.questionBoard.service;
 
 import com.cafe.backend.questionBoard.entity.*;
 import com.cafe.backend.questionBoard.repository.*;
-import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
+//import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
@@ -87,12 +87,12 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
 
     }
 
-    @Override
-    public QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest questionBoardModifyRequest) {
-        QuestionBoard questionBoard = questionBoardRepository.save(questionBoardModifyRequest.toQuestionBord());
-
-        return questionBoard;
-    }
+//    @Override
+//    public QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest questionBoardModifyRequest) {
+//        QuestionBoard questionBoard = questionBoardRepository.save(questionBoardModifyRequest.toQuestionBord());
+//
+//        return questionBoard;
+//    }
 
 
 }
