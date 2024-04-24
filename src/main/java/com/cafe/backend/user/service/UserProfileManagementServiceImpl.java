@@ -24,7 +24,7 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     @Override
     public UserProfileResponse findUserProfileByUserToken(String userToken) {
         log.info("findUserProfileByUserToken():  회원 프로필 정보 조회 start!");
-        Optional<User> maybeUser = userRepository.findByUserToken(userToken);
+        Optional<User> maybeUser = userRepository.findUserByUserToken(userToken);
         if (maybeUser.isEmpty()) {
             return null;
         }
@@ -75,7 +75,7 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     @Override
     public Boolean modifyUserProfileInfo(UserProfileInfoModifyRequest request) {
         log.info("modifyUserProfileInfo() start!");
-        Optional<User> maybeUser = userRepository.findByUserToken(request.getUserToken());
+        Optional<User> maybeUser = userRepository.findUserByUserToken(request.getUserToken());
         if (maybeUser.isEmpty()) {
             return false;
         }
