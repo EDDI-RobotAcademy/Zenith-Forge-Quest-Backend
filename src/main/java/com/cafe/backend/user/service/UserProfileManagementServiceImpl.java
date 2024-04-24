@@ -6,6 +6,7 @@ import com.cafe.backend.user.repository.UserProfileManagementRepository;
 import com.cafe.backend.user.repository.UserRepository;
 import com.cafe.backend.user.service.request.UserProfileImageModifyRequest;
 import com.cafe.backend.user.service.request.UserProfileInfoModifyRequest;
+import com.cafe.backend.user.service.response.UserProfileResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,27 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     final private UserRepository userRepository;
     final private UserProfileImageRepository userProfileImageRepository;
     final private UserProfileManagementRepository userProfileRepository;
+
+    @Override
+    public UserProfileResponse findUserProfileByUserToken(String userToken) {
+        log.info("findUserProfileByUserToken():  회원 프로필 정보 조회 start!");
+        Optional<User> maybeUser = userRepository.findByUserToken(userToken);
+        if (maybeUser.isEmpty()) {
+            return null;
+        }
+
+        final User user = maybeUser.get();
+
+        Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
+        if (maybeUserProfile.isEmpty()) {
+            return null;
+        }
+
+        final UserProfile userProfile = maybeUserProfile.get();
+
+        return new UserProfileResponse(
+                user.getId(), userProfile.getEmail(), userProfile.getNickname(), userProfile.getPhoneNumber());
+    }
 
     @Override
     public Boolean checkDuplicateEmail(String email) {
@@ -53,12 +75,14 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     @Override
     public Boolean modifyUserProfileInfo(UserProfileInfoModifyRequest request) {
         log.info("modifyUserProfileInfo() start!");
-        final User user = userRepository.findByUserToken(request.getUserToken());
-        if (user == null) {
+        Optional<User> maybeUser = userRepository.findByUserToken(request.getUserToken());
+        if (maybeUser.isEmpty()) {
             return false;
         }
 
-        final Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
+        final User user = maybeUser.get();
+
+        Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
         if (maybeUserProfile.isPresent()) {
             UserProfile userProfile = maybeUserProfile.get();
             userProfile.ModifyUserProfile(
@@ -66,7 +90,6 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
                     request.getNickname(),
                     request.getPhoneNumber());
             userProfileRepository.save(userProfile);
-            return true;
         }
         return false;
     }
