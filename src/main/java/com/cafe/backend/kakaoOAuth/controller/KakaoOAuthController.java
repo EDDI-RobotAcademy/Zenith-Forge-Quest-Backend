@@ -1,5 +1,6 @@
 package com.cafe.backend.kakaoOAuth.controller;
 
+import com.cafe.backend.common.kakaoOAuth.KakaoOAuthSecretsProvider;
 import com.cafe.backend.kakaoOAuth.controller.requestForm.KakaoUserLoginRequestForm;
 import com.cafe.backend.kakaoOAuth.service.KakaoOAuthService;
 import com.cafe.backend.redis.RedisService;
@@ -19,12 +20,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/kakao-oauth")
 public class KakaoOAuthController {
+    final private KakaoOAuthSecretsProvider kakaoOAuthSecretsProvider;
     final private KakaoOAuthService kakaoAuthenticationService;
 //    final private UserInfoService userInfoService;
     final private RedisService redisService;
 
     @GetMapping("/login")
-    public String kakaoUserLogin(@RequestParam(name = "code") String code) {
+    public RedirectView kakaoUserLogin(@RequestParam(name = "code") String code) {
         log.info("kakaoUserLogin() -> code: {}", code);
         KakaoUserLoginRequestForm requestForm = kakaoAuthenticationService.kakaoLogin(code);
 //        return userInfoService.userRegister(requestForm);
@@ -33,6 +35,8 @@ public class KakaoOAuthController {
         String userToken = UUID.randomUUID().toString();
         redisService.setKeyAndValue(userToken, idToken);
 
-        return userToken;
+        String kakaoRedirectViewUrl = kakaoOAuthSecretsProvider.getKAKAO_REDIRECT_VIEW_URL();
+
+        return new RedirectView(kakaoRedirectViewUrl + userToken);
     }
 }
