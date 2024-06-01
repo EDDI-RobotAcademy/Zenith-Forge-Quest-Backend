@@ -1,5 +1,6 @@
 package com.cafe.backend.user.entity;
 
+import com.cafe.backend.common.base.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfile {
+public class UserProfile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +20,9 @@ public class UserProfile {
     private String nickname;
     private String phoneNumber;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToOne(mappedBy = "userProfile", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private UserProfileImage userProfileImage;
 
     public UserProfile(String email, String nickname, String phoneNumber) {
         this.email = email;
@@ -32,13 +30,7 @@ public class UserProfile {
         this.phoneNumber = phoneNumber;
     }
 
-    public UserProfile(UserProfileImage userProfileImage) {
-        this.userProfileImage = userProfileImage;
-        userProfileImage.setUserProfile(this);
-    }
-
-    public void ModifyUserProfile(String email, String nickname, String phoneNumber) {
-        this.email = email;
+    public void ModifyUserProfile(String nickname, String phoneNumber) {
         this.nickname = nickname;
         this.phoneNumber = phoneNumber;
     }

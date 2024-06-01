@@ -15,9 +15,9 @@ public class UserProfileImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_profile_id")
-    private UserProfile userProfile;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user;
 
     private String userProfileImage;
 
@@ -29,8 +29,8 @@ public class UserProfileImage {
         return new UserProfileImage(prefixWithFileName);
     }
 
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public void setUserProfile(User user) {
+        this.user = user;
     }
 
     public void ModifyUserProfileImage(String prefixWithFileName) {
