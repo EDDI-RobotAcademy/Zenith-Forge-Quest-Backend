@@ -1,5 +1,6 @@
 package com.cafe.backend.user.service;
 
+import com.cafe.backend.common.exception.custom.NotFoundException;
 import com.cafe.backend.user.entity.*;
 import com.cafe.backend.user.repository.UserProfileImageRepository;
 import com.cafe.backend.user.repository.UserProfileManagementRepository;
@@ -21,25 +22,31 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     final private UserProfileImageRepository userProfileImageRepository;
     final private UserProfileManagementRepository userProfileRepository;
 
+    private User findUserByUserToken(String userToken) {
+        return userRepository.findUserByUserToken(userToken)
+                .orElseThrow(() -> new NotFoundException("This is a non-existent user."));
+    }
+
+    private UserProfile findUserProfileByUser(User user) {
+        return userProfileRepository.findUserProfileByUser(user)
+                .orElseThrow(() -> new NotFoundException("This is a non-existent user profile."));
+    }
+
+    private UserProfileImage findUserProfileImageByUser(User user) {
+        return userProfileImageRepository.findUserProfileByUser(user)
+                .orElseThrow(() -> new NotFoundException("This is a non-existent user profile image."));
+    }
+
     @Override
     public UserProfileResponse findUserProfileByUserToken(String userToken) {
         log.info("findUserProfileByUserToken():  회원 프로필 정보 조회 start!");
-        Optional<User> maybeUser = userRepository.findUserByUserToken(userToken);
-        if (maybeUser.isEmpty()) {
-            return null;
-        }
+        final User user = findUserByUserToken(userToken);
+        final UserProfile userProfile = findUserProfileByUser(user);
+        final UserProfileImage userProfileImage = findUserProfileImageByUser(user);
 
-        final User user = maybeUser.get();
-
-        Optional<UserProfile> maybeUserProfile = userProfileRepository.findUserProfileByUser(user);
-        if (maybeUserProfile.isEmpty()) {
-            return null;
-        }
-
-        final UserProfile userProfile = maybeUserProfile.get();
-
+        log.info("findUserProfileByUserToken():  회원 프로필 정보 조회 end!");
         return new UserProfileResponse(
-                user.getId(), userProfile.getEmail(), userProfile.getNickname(), userProfile.getPhoneNumber());
+                user.getId(), userProfile.getEmail(), userProfile.getNickname(), userProfile.getPhoneNumber(), userProfileImage.getUserProfileImage());
     }
 
     @Override
