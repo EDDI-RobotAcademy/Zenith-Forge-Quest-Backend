@@ -23,6 +23,7 @@ public class UserProfileManagementServiceImpl implements UserProfileManagementSe
     final private UserProfileManagementRepository userProfileRepository;
 
     private User findUserByUserToken(String userToken) {
+        // TODO : Redis에서 UserToken으로 User 찾아오는걸로 추후에 수정해야합니다. (~˘▾˘)~♫•*¨*•.¸¸♪
         return userRepository.findUserByUserToken(userToken)
                 .orElseThrow(() -> new NotFoundException("This is a non-existent user."));
     }
