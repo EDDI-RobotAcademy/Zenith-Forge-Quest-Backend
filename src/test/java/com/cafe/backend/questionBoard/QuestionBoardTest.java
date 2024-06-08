@@ -3,10 +3,7 @@ package com.cafe.backend.questionBoard;
 import com.cafe.backend.questionBoard.controller.form.QuestionBoardRegisterRequestForm;
 import com.cafe.backend.questionBoard.entity.QuestionBoard;
 import com.cafe.backend.questionBoard.entity.Tag;
-import com.cafe.backend.questionBoard.repository.QuestionBoardRepository;
-import com.cafe.backend.questionBoard.repository.QuestionBoardTagRepository;
-import com.cafe.backend.questionBoard.repository.TagRepository;
-import com.cafe.backend.questionBoard.repository.TopicRepository;
+import com.cafe.backend.questionBoard.repository.*;
 import com.cafe.backend.questionBoard.service.QuestionBoardService;
 import com.cafe.backend.questionBoard.service.QuestionBoardServiceImpl;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
@@ -49,6 +46,9 @@ public class QuestionBoardTest {
     private QuestionBoardRepository questionBoardRepository;
 
     @Mock
+    private QuestionBoardTopicRepository questionBoardTopicRepository;
+
+    @Mock
     private TagRepository tagRepository;
 
     @Mock
@@ -83,7 +83,7 @@ public class QuestionBoardTest {
 
         doReturn(expectedBoard).when(questionBoardRepository).save(any(QuestionBoard.class));
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository, topicRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository, questionBoardTopicRepository, topicRepository);
         final QuestionBoard actual = service.createQuestion(request);
 
         assertEquals(actual.getTitle(), expectedBoard.getTitle());
@@ -98,7 +98,7 @@ public class QuestionBoardTest {
         doReturn(Collections.emptyList())
                 .when(questionBoardRepository).findAllByOrderById();
 
-        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository,tagRepository, questionBoardTagRepository, topicRepository);
+        final QuestionBoardServiceImpl service = new QuestionBoardServiceImpl(questionBoardRepository, tagRepository, questionBoardTagRepository, questionBoardTopicRepository, topicRepository);
         final List<QuestionBoard> actual = service.getQuestionByNonUser();
 
         assertTrue(actual.isEmpty());
