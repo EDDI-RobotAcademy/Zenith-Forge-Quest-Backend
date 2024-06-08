@@ -3,6 +3,7 @@ package com.cafe.backend.questionBoard.service;
 import com.cafe.backend.questionBoard.entity.*;
 import com.cafe.backend.questionBoard.repository.*;
 //import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
+import com.cafe.backend.questionBoard.service.request.QuestionBoardModifyRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardRegisterRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardSearchRequest;
 import com.cafe.backend.questionBoard.service.request.QuestionBoardTopicRegisterRequest;
@@ -21,6 +22,7 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
     private final QuestionBoardRepository questionBoardRepository;
     private final TagRepository tagRepository;
     private final QuestionBoardTagRepository questionBoardTagRepository;
+    private final QuestionBoardTopicRepository questionBoardTopicRepository;
     private final TopicRepository topicRepository;
 
     @Override
@@ -87,12 +89,36 @@ public class QuestionBoardServiceImpl implements QuestionBoardService{
 
     }
 
-//    @Override
-//    public QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest questionBoardModifyRequest) {
-//        QuestionBoard questionBoard = questionBoardRepository.save(questionBoardModifyRequest.toQuestionBord());
-//
-//        return questionBoard;
-//    }
+    @Override
+    public QuestionBoard modifyQuestionBoard(QuestionBoardModifyRequest questionBoardModifyRequest) {
+        QuestionBoard questionBoard = questionBoardRepository.save(questionBoardModifyRequest.toQuestionBord());
+
+        return questionBoard;
+    }
+
+    @Override
+    public void deleteQuestionBoard(Long id) {
+        Optional<QuestionBoard> questionBoard = findQuestionBoardById(id);
+        if (questionBoard.isPresent()) {
+            Optional<QuestionBoardTag> questionBoardTag = questionBoardTagRepository.findByQuestionId(id);
+            if (questionBoardTag.isPresent()){
+                questionBoardTagRepository.deleteByQuestionId(id);
+            }
+
+            Optional<QuestionBoardTopic> questionBoardTopic = questionBoardTopicRepository.findByQuestionId(id);
+            if (questionBoardTag.isPresent()){
+                questionBoardTopicRepository.deleteByQuestionId(id);
+            }
+
+            questionBoardRepository.deleteById(id);
+        }else {
+            throw new RuntimeException("정보가 없습니다.");
+        }
+    }
+
+    private Optional<QuestionBoard> findQuestionBoardById(Long id) {
+        return questionBoardRepository.findById(id);
+    }
 
 
 }
